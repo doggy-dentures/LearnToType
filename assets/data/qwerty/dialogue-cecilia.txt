@@ -1,0 +1,7 @@
+:betty:Well done! You're quite the fast learner.
+:betty:Ever been to the bottom of the ocean before?
+:cecilia:Huh, I feel like Atlanta would've enjoyed this more than me.
+:betty:Is that friend you speak of related to the ocean?
+:cecilia:Yeah. She's an Atlantic bluefin tuna.
+:betty:Good to see you have some knowledge of marine life.
+:betty:Cause you'll be needing it!

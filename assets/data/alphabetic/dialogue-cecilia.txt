@@ -1,0 +1,10 @@
+:cecilia:I cannot believe Atlanta signed me up for this.
+:betty:Oh but you can, greetings to you! 
+:cecilia:...
+:cecilia:Er, who are you?
+:betty:You're here to learn, aren't you?
+:cecilia:I am failing my classes.
+:betty:That sounds like something I might be able to assist with.
+:cecilia:You're sure? I don't get how typing will help me pass.
+:betty:It's real simple, let us begin!
+:cecilia:Hoo boy.

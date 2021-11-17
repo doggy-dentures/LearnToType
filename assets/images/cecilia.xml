@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Trim Phase 1.png">
+	<!-- Created with Adobe Animate version 21.0.9.42677 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="19 idle 1 remake0000" x="10" y="10" width="340" height="493" pivotX="0" pivotY="0" frameX="-53" frameY="-4" frameWidth="393" frameHeight="494"/>
+	<SubTexture name="19 idle 1 remake0001" x="360" y="10" width="377" height="494" frameX="-16" frameY="-3" frameWidth="393" frameHeight="494"/>
+	<SubTexture name="19 idle 1 remake0002" x="747" y="10" width="380" height="494" frameX="0" frameY="-4" frameWidth="393" frameHeight="494"/>
+	<SubTexture name="19 idle 1 remake0003" x="1137" y="10" width="327" height="491" frameX="-37" frameY="0" frameWidth="393" frameHeight="494"/>
+	<SubTexture name="19 idle 1 remake0004" x="1474" y="10" width="309" height="494" frameX="-59" frameY="-3" frameWidth="393" frameHeight="494"/>
+	<SubTexture name="20 Right Remake0000" x="1793" y="10" width="364" height="562" pivotX="0" pivotY="0" frameX="-44" frameY="0" frameWidth="508" frameHeight="562"/>
+	<SubTexture name="20 Right Remake0001" x="2167" y="10" width="508" height="498" frameX="0" frameY="0" frameWidth="508" frameHeight="562"/>
+	<SubTexture name="21 left 1 remake0000" x="2685" y="10" width="809" height="497" pivotX="0" pivotY="0" frameX="0" frameY="0" frameWidth="809" frameHeight="498"/>
+	<SubTexture name="21 left 1 remake0001" x="3504" y="10" width="472" height="497" frameX="-72" frameY="-1" frameWidth="809" frameHeight="498"/>
+	<SubTexture name="22 up remake 10000" x="10" y="1033" width="373" height="522" pivotX="0" pivotY="0" frameX="0" frameY="0" frameWidth="379" frameHeight="526"/>
+	<SubTexture name="22 up remake 10001" x="393" y="1033" width="375" height="502" frameX="-4" frameY="-24" frameWidth="379" frameHeight="526"/>
+	<SubTexture name="23 Down Remake 10000" x="778" y="1033" width="276" height="483" pivotX="0" pivotY="0" frameX="0" frameY="0" frameWidth="291" frameHeight="484"/>
+	<SubTexture name="23 Down Remake 10001" x="1064" y="1033" width="286" height="481" frameX="-5" frameY="-3" frameWidth="291" frameHeight="484"/>
+</TextureAtlas>

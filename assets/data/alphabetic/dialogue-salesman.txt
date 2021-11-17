@@ -1,0 +1,6 @@
+:salesman:Excuse me sentient letter! May I have a moment?
+:betty:Of course! I'm Betty Alpha!
+:salesman:It's a pleasure, Ms Alpha.
+:salesman:I couldn't help but notice that the doors to your abode seem...dated.
+:salesman:Luckily, I, a humble door salesman, am willing to help you out!
+:betty:I'm not entirely sure what you mean, but I'm willing to discuss this matter over a lesson on typing!

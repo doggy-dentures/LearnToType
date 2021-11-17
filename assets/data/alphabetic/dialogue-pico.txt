@@ -1,0 +1,13 @@
+:betty:Hello there, boy.
+:pico:Don't call me boy. My name's Pico.
+:betty:Sure thing, Pico.
+:betty:You can call me Betty. Betty Alpha.
+:pico:Whatever. Let's cut to chase.
+:pico:Did a guy with blue hair, a hat, and a microphone pass through this place earlier?
+:betty:About an hour ago, yes.
+:pico:Where can I find him right now?
+:betty:Let's not be so hasty now.
+:betty:How about I tell you after a short lesson on typing?
+:pico:......
+:pico:No.
+:betty:C'mon. It'll be fun! Just repeat after me!

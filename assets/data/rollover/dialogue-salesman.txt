@@ -1,0 +1,7 @@
+:betty:And here's the science lab!
+:salesman:Reminds me of my university days.
+:salesman:Also reminds me of corrosion resistant doors! Could I interest you in one?
+:betty:Okay, I think i've heard enough door talk.
+:betty:If I buy a door from you, will you stop going on about them?
+:salesman:Of course!
+:betty:Let's barter with spelling, shall we?

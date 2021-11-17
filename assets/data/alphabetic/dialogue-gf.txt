@@ -1,0 +1,13 @@
+:betty:Hello there, lady!
+:betty:What's your name?
+:gf:Girlfriend.
+:betty:Girlfriend...err, alright.
+:betty:The name's Betty Alpha!
+:betty:What are you doing here on this sunny day?
+:gf:I'm waiting for my boyfriend.
+:betty:Oh, and what's his name?
+:gf:Boyfriend.
+:betty:Uh...okay.
+:betty:Anyways, since you're here, why not learn how to type.
+:gf:lol, okay.
+:betty:Wonderful! Let's start it off with an easy one.

@@ -1,0 +1,12 @@
+:betty:Hello there, newcomer!
+:betty:The name's Betty. Betty Alpha.
+:betty:So I heard that you need help with forming letters and words.
+:bf:Bap boop schloop.
+:betty:Yes, that's what I'm here for!
+:betty:In three painless steps, we'll get you acquainted with the alphabet.
+:betty:How does that sound?
+:bf:Beep?
+:betty:Don't worry! You'll learn in no time. So let's start with the lessons!
+:betty:Let's take it easy for now.
+:betty:Just repeat after me.
+:bf:Zloop.
