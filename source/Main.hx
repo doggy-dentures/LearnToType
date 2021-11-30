@@ -99,6 +99,8 @@ class Main extends Sprite
 		addCharacter("senpai", "Senpai");
 		addCharacter("cecilia", "Cecilia", "Ket_Overkill & CryMeARiverOfArt");
 		addCharacter("salesman", "Door to Door Door Salesman", "Aurazona & Pizzapancakess_");
+
+		KeyboardMappings.loadMappings();
 	}
 
 	static public function playMusic()

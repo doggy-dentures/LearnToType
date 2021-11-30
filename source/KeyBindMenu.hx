@@ -19,34 +19,28 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.input.FlxKeyManager;
 
-
 using StringTools;
 
 class KeyBindMenu extends MusicBeatState
 {
+	var keyTextDisplay:FlxText;
+	var keyWarning:FlxText;
+	var warningTween:FlxTween;
+	var backText:FlxText;
 
-    var keyTextDisplay:FlxText;
-    var keyWarning:FlxText;
-    var warningTween:FlxTween;
-    var keyText:Array<String> = ["LEFT", "DOWN", "UP", "RIGHT"];
-    var defaultKeys:Array<String> = ["A", "S", "W", "D", "R"];
-    var curSelected:Int = 0;
+	var selectArray:Array<FlxText> = [];
+	var selected:Int = 0;
+	var currentLetter:Int = 0;
 
-    var keys:Array<String> = [FlxG.save.data.leftBind,
-                              FlxG.save.data.downBind,
-                              FlxG.save.data.upBind,
-                              FlxG.save.data.rightBind,
-                              FlxG.save.data.killBind];
+	var tempKeyMap:Map<Int, String>;
 
-    var tempKey:String = "";
-    var blacklist:Array<String> = ["ESCAPE", "ENTER", "BACKSPACE", "SPACE"];
+	var state:String = "select";
 
-    var state:String = "select";
+	var blacklist:Array<String> = ["ESCAPE", "ENTER", "BACKSPACE", "SPACE", "DELETE"];
 
 	override function create()
-	{	
-	
-		//FlxG.sound.playMusic('assets/music/configurator' + TitleState.soundExt);
+	{
+		// FlxG.sound.playMusic('assets/music/configurator' + TitleState.soundExt);
 
 		persistentUpdate = persistentDraw = true;
 
@@ -60,41 +54,54 @@ class KeyBindMenu extends MusicBeatState
 		bg.color = 0xFF9766BE;
 		add(bg);
 
-        keyTextDisplay = new FlxText(0, 0, 1280, "", 72);
+		keyTextDisplay = new FlxText(0, 50, 1280, "Select a keyboard layout or manually assign keys if your layout is not of these:");
 		keyTextDisplay.scrollFactor.set(0, 0);
-		keyTextDisplay.setFormat("assets/fonts/Funkin-Bold.otf", 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		keyTextDisplay.setFormat(null, 24, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		keyTextDisplay.borderSize = 3;
 		keyTextDisplay.borderQuality = 1;
-        add(keyTextDisplay);
+		keyTextDisplay.updateHitbox();
+		add(keyTextDisplay);
 
-        keyWarning = new FlxText(0, 580, 1280, "WARNING: BIND NOT SET, TRY ANOTHER KEY", 42);
+		for (i in 0...3)
+		{
+			selectArray[i] = new FlxText(0, 80 * (i + 2), 1280, "", 72);
+			selectArray[i].scrollFactor.set(0, 0);
+			selectArray[i].setFormat("assets/fonts/Funkin-Bold.otf", 72, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			selectArray[i].borderSize = 3;
+			selectArray[i].borderQuality = 1;
+			add(selectArray[i]);
+		}
+		selectArray[0].text = "QWERTY";
+		selectArray[1].text = "AZERTY";
+		selectArray[2].text = "MANUALLY ASSIGN";
+
+		keyWarning = new FlxText(0, 580, 1280, "WARNING: BIND NOT SET. KEY IS ALREADY IN USE OR IS INVALID. TRY ANOTHER KEY", 42);
 		keyWarning.scrollFactor.set(0, 0);
 		keyWarning.setFormat("assets/fonts/vcr.ttf", 42, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-        keyWarning.borderSize = 3;
+		keyWarning.borderSize = 3;
 		keyWarning.borderQuality = 1;
-        keyWarning.screenCenter(X);
-        keyWarning.alpha = 0;
-        add(keyWarning);
+		keyWarning.screenCenter(X);
+		keyWarning.alpha = 0;
+		add(keyWarning);
 
-        var backText = new FlxText(5, FlxG.height - 37, 0, "ESCAPE - Back to Menu\nBACKSPACE - Reset to Defaults\n", 16);
+		backText = new FlxText(5, FlxG.height - 37, 0, "ESCAPE - Back to Menu\nDELETE - Reset to Defaults\n", 16);
 		backText.scrollFactor.set();
 		backText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-        add(backText);
+		add(backText);
 
-        warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0);
+		warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0);
 
-        textUpdate();
+		changeItem();
 
 		super.create();
 	}
 
 	override function update(elapsed:Float)
 	{
-
-        switch(state){
-
-            case "select":
-                if (controls.UP_P)
+		switch (state)
+		{
+			case "select":
+				if (controls.UP_P)
 				{
 					FlxG.sound.play('assets/sounds/scrollMenu.ogg');
 					changeItem(-1);
@@ -106,157 +113,129 @@ class KeyBindMenu extends MusicBeatState
 					changeItem(1);
 				}
 
-                if (FlxG.keys.justPressed.ENTER){
-                    FlxG.sound.play('assets/sounds/scrollMenu.ogg');
-                    state = "input";
-                }
-                else if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(ANY)){
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
-                    quit();
-                }
-				else if (FlxG.keys.justPressed.BACKSPACE){
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
-                    reset();
-                }
+				if (FlxG.keys.justPressed.ENTER)
+				{
+					FlxG.sound.play('assets/sounds/scrollMenu.ogg');
+					switch (selected)
+					{
+						case 0:
+							KeyboardMappings.qwertyPreset();
+							quit();
+						case 1:
+							KeyboardMappings.azertyPreset();
+							quit();
+						case 2:
+							state = "input";
+							tempKeyMap = new Map<Int, String>();
+							for (i in selectArray)
+								i.visible = false;
+							backText.text = "ESCAPE - Cancel Manual Mapping\n";
+					}
+				}
+				else if (FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(ANY))
+				{
+					FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+					quit();
+				}
+				else if (FlxG.keys.justPressed.DELETE)
+				{
+					FlxG.sound.play('assets/sounds/cancelMenu.ogg');
+					reset();
+				}
 
-            case "input":
-                tempKey = keys[curSelected];
-                keys[curSelected] = "?";
-                textUpdate();
-                state = "waiting";
+			case "input":
+				if (currentLetter >= Main.alphabet.length || FlxG.keys.justPressed.ESCAPE)
+				{
+					state = "select";
+                    currentLetter = 0;
+					headerUpdate();
+					for (i in selectArray)
+						i.visible = true;
+					backText.text = "ESCAPE - Back to Menu\nDELETE - Reset to Defaults\n";
+				}
+				else
+				{
+					headerUpdate();
+					if (FlxG.keys.getIsDown().length > 0 && FlxG.keys.getIsDown()[0].justPressed)
+					{
+						if (blacklist.contains(FlxG.keys.getIsDown()[0].ID.toString()) || tempKeyMap[FlxG.keys.getIsDown()[0].ID] != null)
+						{
+							keyWarning.alpha = 1;
+							warningTween.cancel();
+							warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0.5, {ease: FlxEase.circOut, startDelay: 2});
+						}
+						else
+						{
+							tempKeyMap[FlxG.keys.getIsDown()[0].ID] = Main.alphabet[currentLetter];
+							currentLetter++;
+						}
+					}
+					if (currentLetter >= Main.alphabet.length)
+					{
+						for (keyCode in tempKeyMap.keys())
+						{
+							KeyboardMappings.assignKey(keyCode, tempKeyMap[keyCode]);
+						}
+					}
+				}
 
-            case "waiting":
-                if(FlxG.keys.justPressed.ESCAPE){
-                    keys[curSelected] = tempKey;
-                    state = "select";
-                    FlxG.sound.play('assets/sounds/cancelMenu.ogg');
-                }
-                else if(FlxG.keys.justPressed.ENTER){
-                    addKey(defaultKeys[curSelected]);
-                    save();
-                    state = "select";
-                }
-                else if(FlxG.keys.justPressed.ANY){
-                    addKey(FlxG.keys.getIsDown()[0].ID.toString());
-                    save();
-                    state = "select";
-                }
+			case "exiting":
 
-
-            case "exiting":
-
-
-            default:
-                state = "select";
-
-        }
-
-        if(FlxG.keys.justPressed.ANY)
-			textUpdate();
+			default:
+				state = "select";
+		}
 
 		super.update(elapsed);
-		
 	}
 
-    function textUpdate(){
+	function textUpdate()
+	{
+		selectArray[0].text = "QWERTY";
+		selectArray[1].text = "AZERTY";
+		selectArray[2].text = "MANUALLY ASSIGN";
 
-        keyTextDisplay.text = "\n\n";
-
-        for(i in 0...4){
-
-            var textStart = (i == curSelected) ? ">" : "  ";
-            keyTextDisplay.text += textStart + keyText[i] + ": " + ((keys[i] != keyText[i]) ? (keys[i] + " + ") : "" ) + keyText[i] + " ARROW\n";
-
-        }
-
-        var textStart = (curSelected == 4) ? ">" : "  ";
-
-        keyTextDisplay.text += textStart + "RESET: " + keys[4]  + "\n";
-
-        keyTextDisplay.screenCenter();
-
-    }
-
-    function save(){
-
-        FlxG.save.data.upBind = keys[2];
-        FlxG.save.data.downBind = keys[1];
-        FlxG.save.data.leftBind = keys[0];
-        FlxG.save.data.rightBind = keys[3];
-        FlxG.save.data.killBind = keys[4];
-
-        FlxG.save.flush();
-
-        PlayerSettings.player1.controls.loadKeyBinds();
-
-    }
-
-    function reset(){
-
-        for(i in 0...5){
-            keys[i] = defaultKeys[i];
-        }
-        quit();
-
-    }
-
-    function quit(){
-
-        state = "exiting";
-
-        save();
-
-        ConfigMenu.startSong = false;
-        FlxG.switchState(new ConfigMenu());
-
-    }
-
-	function addKey(r:String){
-
-        var shouldReturn:Bool = true;
-
-        var notAllowed:Array<String> = [];
-
-        for(x in keys){
-            if(x != tempKey){notAllowed.push(x);}
-        }
-
-        for(x in blacklist){notAllowed.push(x);}
-
-        if(curSelected != 4){
-
-            for(x in keyText){
-                if(x != keyText[curSelected]){notAllowed.push(x);}
-            }
-            
-        }
-        else {for(x in keyText){notAllowed.push(x);}}
-
-        trace(notAllowed);
-
-        for(x in notAllowed){if(x == r){shouldReturn = false;}}
-
-        if(shouldReturn){
-            keys[curSelected] = r;
-            FlxG.sound.play('assets/sounds/scrollMenu.ogg');
-        }
-        else{
-            keys[curSelected] = tempKey;
-            FlxG.sound.play('assets/sounds/cancelMenu.ogg');
-            keyWarning.alpha = 1;
-            warningTween.cancel();
-            warningTween = FlxTween.tween(keyWarning, {alpha: 0}, 0.5, {ease: FlxEase.circOut, startDelay: 2});
-        }
-
+		for (i in 0...selectArray.length)
+		{
+			if (selected == i)
+				selectArray[selected].text = ">" + selectArray[selected].text;
+		}
 	}
 
-    function changeItem(_amount:Int = 0)
-    {
-        curSelected += _amount;
-                
-        if (curSelected > 4)
-            curSelected = 0;
-        if (curSelected < 0)
-            curSelected = 4;
-    }
+	function headerUpdate()
+	{
+		if (state == "input")
+		{
+			keyTextDisplay.text = "Press the Key for " + Main.alphabet[currentLetter];
+		}
+		else
+			keyTextDisplay.text = "Select a keyboard layout or manually assign keys if your layout is not of these:";
+	}
+
+	function save()
+	{
+		KeyboardMappings.saveMappings();
+	}
+
+	function reset()
+	{
+		KeyboardMappings.resetMappings();
+	}
+
+	function quit()
+	{
+		save();
+		ConfigMenu.startSong = false;
+		FlxG.switchState(new ConfigMenu());
+	}
+
+	function changeItem(_amount:Int = 0)
+	{
+		selected += _amount;
+		if (selected >= selectArray.length)
+			selected = 0;
+		else if (selected < 0)
+			selected = selectArray.length - 1;
+
+		textUpdate();
+	}
 }

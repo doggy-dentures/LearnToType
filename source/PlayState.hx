@@ -2160,14 +2160,6 @@ class PlayState extends MusicBeatState
 						if (Math.abs(daNote.noteData) == spr.ID)
 						{
 							spr.animation.play('confirm', true);
-							if (spr.animation.curAnim.name == 'confirm' && SONG.player1 != 'senpai')
-							{
-								spr.centerOffsets();
-								spr.offset.x -= 13;
-								spr.offset.y -= 13;
-							}
-							else
-								spr.centerOffsets();
 						}
 					});
 
@@ -2873,8 +2865,10 @@ class PlayState extends MusicBeatState
 
 		for (letter in FlxG.keys.getIsDown())
 		{
-			if (letter.ID.toString().length != 1)
+			if (KeyboardMappings.keyMappings[letter.ID] == null)
 				continue;
+
+			var letterPressed:String = KeyboardMappings.keyMappings[letter.ID].toLowerCase();
 
 			if (letter.justPressed && generatedMusic)
 			{
@@ -2885,7 +2879,7 @@ class PlayState extends MusicBeatState
 					var goodEnoughIndex:Int = -1;
 					for (i in 0...possibleNotes.length)
 					{
-						if (possibleNotes[i].noteLetter.toLowerCase() == letter.ID.toString().toLowerCase())
+						if (possibleNotes[i].noteLetter.toLowerCase() == letterPressed)
 						{
 							goodEnoughIndex = i;
 							noteCheck(true, possibleNotes[i]);
@@ -2898,13 +2892,13 @@ class PlayState extends MusicBeatState
 					else
 					{
 						badNoteCheck();
-						addLetter(boyfriend, bfSpelling, letter.ID.toString());
+						addLetter(boyfriend, bfSpelling, letterPressed.toUpperCase());
 					}
 				}
 				else
 				{
 					badNoteCheck();
-					addLetter(boyfriend, bfSpelling, letter.ID.toString());
+					addLetter(boyfriend, bfSpelling, letterPressed.toUpperCase());
 				}
 			}
 		}

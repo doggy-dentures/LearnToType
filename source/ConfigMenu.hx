@@ -74,7 +74,7 @@ class ConfigMenu extends MusicBeatState
 									"Makes note arrows glow if they are able to be hit.",
 									"Adds low health icons for characters missing them and adds winning icons.\n[This disables modded health icons unless there is a version of the files included in the mod.]",
 									"TEMP",
-									"Change key binds."
+									"Change key binds (mainly for non-QWERTY players)"
 									];
 
 	var ghostTapDesc:Array<String> = [
